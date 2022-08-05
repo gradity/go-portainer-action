@@ -1,9 +1,10 @@
-package internal
+package service
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -15,7 +16,7 @@ type LoginCred struct {
 	Password string
 }
 
-type AuthResponse struct {
+type JWTResponse struct {
 	Jwt string `json:"jwt"`
 }
 
@@ -24,14 +25,18 @@ type ListEndpointResponse struct {
 	Name string
 }
 
-func GetJWTToken() *string {
+func GetJWTToken() *JWTResponse {
 
-	postBody, _ := json.Marshal(LoginCred{
+	loginCred := LoginCred{
 		Username: config.Portainer.Username,
 		Password: config.Portainer.Password,
-	})
+	}
+	postBody, _ := json.Marshal(loginCred)
+	log.Println("postBody: ", postBody)
 
 	requestBody := bytes.NewBuffer(postBody)
+
+	log.Printf("requestBody: %T", requestBody)
 
 	authURL := fmt.Sprintf("%v/auth", config.Portainer.Url)
 
@@ -41,15 +46,15 @@ func GetJWTToken() *string {
 	}
 	defer res.Body.Close()
 
-	var response AuthResponse
+	var response JWTResponse
 	if err := json.NewDecoder(res.Body).Decode(&response); err != nil {
 		panic(err)
 	}
 
-	return &response.Jwt
+	return &response
 }
 
-func ListEndpoints(token string) *[]ListEndpointResponse {
+func (jwt *JWTResponse) ListEndpoints() *[]ListEndpointResponse {
 
 	endpointURL := fmt.Sprintf("%v/endpoints", config.Portainer.Url)
 
@@ -57,7 +62,8 @@ func ListEndpoints(token string) *[]ListEndpointResponse {
 	if err != nil {
 		panic(err)
 	}
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %v", token))
+
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %v", jwt.Jwt))
 
 	client := http.Client{
 		Timeout: time.Second * 30,

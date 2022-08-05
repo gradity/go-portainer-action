@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  run:
+    cmds:
+      - go run cmd/main.go
+
+  compile:
+    cmds:
+      - go build -o bin/main cmd/main.go
+
+  build:
+    cmds:
+      - docker build --no-cache --progress=plain -t go-portainer-action:{{ .CLI_ARGS }} .
+
+  rund:
+    cmds:
+      - docker run --rm go-portainer-action:{{ .CLI_ARGS }}

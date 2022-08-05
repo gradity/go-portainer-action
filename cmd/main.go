@@ -3,12 +3,12 @@ package main
 import (
 	"log"
 
-	"github.com/gradity/go-portainer-action/internal"
+	"github.com/gradity/go-portainer-action/service"
 )
 
 func main() {
-	jwt := internal.GetJWTToken()
+	jwt := service.GetJWTToken()
 	log.Println(*jwt)
-	lp := internal.ListEndpoints(*jwt)
+	lp := jwt.ListEndpoints()
 	log.Println(*lp)
 }
