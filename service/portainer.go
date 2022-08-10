@@ -27,16 +27,27 @@ type ListEndpointResponse struct {
 
 func GetJWTToken() *JWTResponse {
 
-	loginCred := LoginCred{
-		Username: config.Portainer.Username,
-		Password: config.Portainer.Password,
-	}
-	postBody, _ := json.Marshal(loginCred)
-	log.Println("postBody: ", postBody)
+	// option 1 - start
+	// loginCred := LoginCred{
+	// 	Username: config.Portainer.Username,
+	// 	Password: config.Portainer.Password,
+	// }
 
-	requestBody := bytes.NewBuffer(postBody)
+	// postBody, _ := json.Marshal(loginCred)
+	// log.Println("postBody: ", postBody)
+	// requestBody := bytes.NewBuffer(postBody)
+	// option 1 - end
 
-	log.Printf("requestBody: %T", requestBody)
+	// option 2 - start
+	// postBody, _ := json.Marshal(config.Portainer.ManifestLogin)
+	// requestBody := bytes.NewBuffer(postBody)
+	// option 2 - end
+
+	// option 3 - start
+	requestBody := bytes.NewBuffer(config.Portainer.ByteManifest)
+	// option 3 - end
+
+	log.Printf("requestBody: %s", requestBody)
 
 	authURL := fmt.Sprintf("%v/auth", config.Portainer.Url)
 

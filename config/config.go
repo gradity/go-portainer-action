@@ -7,15 +7,19 @@ import (
 )
 
 type PortainerConfig struct {
-	Url        string `env:"PORTAINER_URL"`
-	Username   string `env:"PORTAINER_USERNAME"`
-	Password   string `env:"PORTAINER_PASSWORD"`
-	EndPointId string `env:"ENDPOINT_ID"`
+	Url           string `env:"PORTAINER_URL"`
+	Username      string `env:"PORTAINER_USERNAME"`
+	Password      string `env:"PORTAINER_PASSWORD"`
+	EndPointId    string `env:"ENDPOINT_ID"`
+	ManifestLogin string `env:"MANIFEST_LOGIN"`
+	ByteManifest  []byte
 }
 
 var Portainer PortainerConfig
 
 func init() {
 	env.Parse(&Portainer)
-	log.Println(Portainer)
+	log.Println("ManifestLogin: ", Portainer.ManifestLogin)
+	Portainer.ByteManifest = []byte(Portainer.ManifestLogin)
+	log.Println("ByteManifest: ", Portainer.ByteManifest)
 }
