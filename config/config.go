@@ -7,12 +7,13 @@ import (
 )
 
 type PortainerConfig struct {
-	Url           string `env:"PORTAINER_URL"`
-	Username      string `env:"PORTAINER_USERNAME"`
-	Password      string `env:"PORTAINER_PASSWORD"`
-	EndPointId    string `env:"ENDPOINT_ID"`
-	ManifestLogin string `env:"MANIFEST_LOGIN"`
-	ByteManifest  []byte
+	Url            string `env:"PORTAINER_URL"`
+	Username       string `env:"PORTAINER_USERNAME"`
+	Password       string `env:"PORTAINER_PASSWORD"`
+	EndPointId     string `env:"ENDPOINT_ID"`
+	ManifestLogin  string `env:"MANIFEST_LOGIN"`
+	ManifestLogin2 string `env:"MANIFEST_LOGIN2"`
+	ByteManifest   []byte
 }
 
 var Portainer PortainerConfig

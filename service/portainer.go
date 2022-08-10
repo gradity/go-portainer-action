@@ -39,13 +39,23 @@ func GetJWTToken() *JWTResponse {
 	// option 1 - end
 
 	// option 2 - start
-	// postBody, _ := json.Marshal(config.Portainer.ManifestLogin)
+	// postBody, _ := json.Marshal([]byte(config.Portainer.ManifestLogin))
+	// log.Println("postBody: ", postBody)
 	// requestBody := bytes.NewBuffer(postBody)
 	// option 2 - end
 
-	// option 3 - start
-	requestBody := bytes.NewBuffer(config.Portainer.ByteManifest)
+	// option 3 - start (works)
+	// requestBody := bytes.NewBuffer(config.Portainer.ByteManifest)
 	// option 3 - end
+
+	// option 4 - start (works)
+	var jsonBody map[string]interface{}
+	json.Unmarshal([]byte(config.Portainer.ManifestLogin), &jsonBody)
+	log.Println("option 4 - jsonBody: ", jsonBody)
+	postBody, _ := json.Marshal(jsonBody)
+	log.Println("option 4 - postBody: ", postBody)
+	requestBody := bytes.NewBuffer(postBody)
+	// option 4 - end
 
 	log.Printf("requestBody: %s", requestBody)
 
@@ -56,6 +66,11 @@ func GetJWTToken() *JWTResponse {
 		panic(err)
 	}
 	defer res.Body.Close()
+
+	// resBody := res.Body
+	// body, _ := ioutil.ReadAll(resBody)
+	// testBody := string(body)
+	// log.Println("BodyString", testBody)
 
 	var response JWTResponse
 	if err := json.NewDecoder(res.Body).Decode(&response); err != nil {
