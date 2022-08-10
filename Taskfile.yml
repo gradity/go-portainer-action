@@ -16,3 +16,11 @@ tasks:
   rund:
     cmds:
       - docker run --rm go-portainer-action:{{ .CLI_ARGS }}
+  
+  encode:
+    cmds:
+      - base64 identity.json > test.txt
+
+  encode-id:
+    cmds:
+      - base64 registryid.json > testid.txt
