@@ -3,7 +3,7 @@ package config
 import (
 	"log"
 
-	"github.com/caarlos0/env"
+	"github.com/caarlos0/env/v6"
 )
 
 type PortainerConfig struct {
