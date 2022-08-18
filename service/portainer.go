@@ -38,10 +38,8 @@ func GetJWTToken() *JWTResponse {
 	// requestBody := bytes.NewBuffer(postBody)
 	// option 1 - end
 
-	// option 2 - start
-	// postBody, _ := json.Marshal([]byte(config.Portainer.ManifestLogin))
-	// log.Println("postBody: ", postBody)
-	// requestBody := bytes.NewBuffer(postBody)
+	// option 2 - start (works)
+	requestBody := bytes.NewBuffer([]byte(config.Portainer.ManifestLogin))
 	// option 2 - end
 
 	// option 3 - start (works)
@@ -49,12 +47,15 @@ func GetJWTToken() *JWTResponse {
 	// option 3 - end
 
 	// option 4 - start (works)
-	var jsonBody map[string]interface{}
-	json.Unmarshal([]byte(config.Portainer.ManifestLogin), &jsonBody)
-	log.Println("option 4 - jsonBody: ", jsonBody)
-	postBody, _ := json.Marshal(jsonBody)
-	log.Println("option 4 - postBody: ", postBody)
-	requestBody := bytes.NewBuffer(postBody)
+	// var jsonBody map[string]interface{}
+
+	// json.Unmarshal([]byte(config.Portainer.ManifestLogin), &jsonBody)
+	// log.Println("option 4 - jsonBody: ", jsonBody)
+
+	// postBody, _ := json.Marshal(jsonBody)
+	// log.Println("option 4 - postBody: ", postBody)
+
+	// requestBody := bytes.NewBuffer(postBody)
 	// option 4 - end
 
 	log.Printf("requestBody: %s", requestBody)
